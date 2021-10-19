@@ -7,6 +7,7 @@ import {
   TextInput,
   FlatList,
 } from "react-native";
+import { HorizontalFoodCard } from "../../components";
 import { FONTS, SIZES, COLORS, icons, dummyData } from "../../constants";
 
 const Home = () => {
@@ -89,7 +90,23 @@ const Home = () => {
         keyExtractor={(item) => `${item.id}`}
         showsHorizontalScrollIndicator={false}
         renderItem={({ index, item }) => {
-          return <Text>{item.name}</Text>;
+          return (
+            <HorizontalFoodCard
+              conatinerStyle={{
+                height: 130,
+                alignItems: "center",
+                marginHorizontal: SIZES.padding,
+                marginBottom: SIZES.radius,
+              }}
+              imageStyle={{
+                marginTop: 20,
+                height: 110,
+                width: 110,
+              }}
+              item={item}
+              opPress={() => console.log(`HorizontalFoodcard`)}
+            />
+          );
         }}
       />
     </View>
