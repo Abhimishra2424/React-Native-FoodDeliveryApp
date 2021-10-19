@@ -1,54 +1,64 @@
-import React from 'react';
-import {View, Text, Image, TouchableOpacity} from 'react-native';
+import React from "react";
+import { View, Text, Image, TouchableOpacity } from "react-native";
 
 import {
   createDrawerNavigator,
   DrawerContentScrollView,
-} from '@react-navigation/drawer';
+} from "@react-navigation/drawer";
 
-import {MainLayout} from '../screens';
-import {COLORS, FONTS, SIZES, constants, icons, dummyData} from '../constants';
-import Animated from 'react-native-reanimated';
-import {connect} from 'react-redux';
-import {setSelectedTab} from '../store/tab/tabActions';
+import { MainLayout } from "../screens";
+import {
+  COLORS,
+  FONTS,
+  SIZES,
+  constants,
+  icons,
+  dummyData,
+} from "../constants";
+import Animated from "react-native-reanimated";
+import { connect } from "react-redux";
+import { setSelectedTab } from "../store/tab/tabActions";
 
 const Drawer = createDrawerNavigator();
 
-const CustomDrawerItem = ({label, icon, onPress, isFocused}) => {
+const CustomDrawerItem = ({ label, icon, onPress, isFocused }) => {
   return (
     <TouchableOpacity
       style={{
-        flexDirection: 'row',
+        flexDirection: "row",
         height: 40,
         marginBottom: SIZES.base,
-        alignItems: 'center',
+        alignItems: "center",
         paddingLeft: SIZES.radius,
         borderRadius: SIZES.base,
         backgroundColor: isFocused ? COLORS.transparentBlack1 : null,
       }}
-      onPress={onPress}>
+      onPress={onPress}
+    >
       <Image
         source={icon}
-        style={{width: 20, height: 20, tintColor: COLORS.white}}
+        style={{ width: 20, height: 20, tintColor: COLORS.white }}
       />
-      <Text style={{marginLeft: 15, color: COLORS.white, ...FONTS.h3}}>
+      <Text style={{ marginLeft: 15, color: COLORS.white, ...FONTS.h3 }}>
         {label}
       </Text>
     </TouchableOpacity>
   );
 };
 
-const CustomDrawerContent = ({navigation, setSelectedTab, selectedTab}) => {
+const CustomDrawerContent = ({ navigation, setSelectedTab, selectedTab }) => {
   return (
     <DrawerContentScrollView
       scrollEnabled={true}
-      contentContainerStyle={{flex: 1}}>
-      <View style={{flex: 1, paddingHorizontal: SIZES.radius}}>
+      contentContainerStyle={{ flex: 1 }}
+    >
+      <View style={{ flex: 1, paddingHorizontal: SIZES.radius }}>
         {/* "close" */}
-        <View style={{alignItems: 'flex-start', justifyContent: 'center'}}>
+        <View style={{ alignItems: "flex-start", justifyContent: "center" }}>
           <TouchableOpacity
-            style={{alignItems: 'center', justifyContent: 'center'}}
-            onPress={() => navigation.closeDrawer()}>
+            style={{ alignItems: "center", justifyContent: "center" }}
+            onPress={() => navigation.closeDrawer()}
+          >
             <Image
               source={icons.cross}
               style={{
@@ -62,11 +72,12 @@ const CustomDrawerContent = ({navigation, setSelectedTab, selectedTab}) => {
         {/* Profile */}
         <TouchableOpacity
           style={{
-            flexDirection: 'row',
+            flexDirection: "row",
             marginTop: SIZES.radius,
-            alignItems: 'center',
+            alignItems: "center",
           }}
-          onPress={() => console.warn('hello')}>
+          onPress={() => console.warn("hello")}
+        >
           <Image
             source={dummyData.myProfile?.profile_image}
             style={{
@@ -75,25 +86,25 @@ const CustomDrawerContent = ({navigation, setSelectedTab, selectedTab}) => {
               borderRadius: SIZES.radius,
             }}
           />
-          <View style={{marginLeft: SIZES.radius}}>
-            <Text style={{color: COLORS.white, ...FONTS.h3}}>
+          <View style={{ marginLeft: SIZES.radius }}>
+            <Text style={{ color: COLORS.white, ...FONTS.h3 }}>
               {dummyData.myProfile?.name}
             </Text>
-            <Text style={{color: COLORS.white, ...FONTS.body4}}>
+            <Text style={{ color: COLORS.white, ...FONTS.body4 }}>
               View Your Profile
             </Text>
           </View>
         </TouchableOpacity>
 
         {/* drawer Items */}
-        <View style={{flex: 1, marginTop: SIZES.padding}}>
+        <View style={{ flex: 1, marginTop: SIZES.padding }}>
           <CustomDrawerItem
             label={constants.screens.home}
             icon={icons.home}
             isFocused={selectedTab == constants.screens.home}
             onPress={() => {
               setSelectedTab(constants.screens.home);
-              navigation.navigate('MainLayout');
+              navigation.navigate("MainLayout");
             }}
           />
           <CustomDrawerItem
@@ -106,7 +117,7 @@ const CustomDrawerContent = ({navigation, setSelectedTab, selectedTab}) => {
             isFocused={selectedTab == constants.screens.notification}
             onPress={() => {
               setSelectedTab(constants.screens.notification);
-              navigation.navigate('MainLayout');
+              navigation.navigate("MainLayout");
             }}
           />
           <CustomDrawerItem
@@ -115,7 +126,7 @@ const CustomDrawerContent = ({navigation, setSelectedTab, selectedTab}) => {
             isFocused={selectedTab == constants.screens.favourite}
             onPress={() => {
               setSelectedTab(constants.screens.favourite);
-              navigation.navigate('MainLayout');
+              navigation.navigate("MainLayout");
             }}
           />
 
@@ -126,7 +137,8 @@ const CustomDrawerContent = ({navigation, setSelectedTab, selectedTab}) => {
               marginVertical: SIZES.radius,
               marginLeft: SIZES.radius,
               backgroundColor: COLORS.lightGray1,
-            }}>
+            }}
+          >
             <CustomDrawerItem label="Track Your order" icon={icons.location} />
             <CustomDrawerItem label="coupons" icon={icons.coupon} />
             <CustomDrawerItem label="setting" icon={icons.setting} />
@@ -134,7 +146,7 @@ const CustomDrawerContent = ({navigation, setSelectedTab, selectedTab}) => {
             <CustomDrawerItem label="Help Center" icon={icons.help} />
           </View>
         </View>
-        <View style={{marginBottom: SIZES.padding}}>
+        <View style={{ marginBottom: SIZES.padding }}>
           <CustomDrawerItem label="Logout" icon={icons.logout} />
         </View>
       </View>
@@ -142,7 +154,7 @@ const CustomDrawerContent = ({navigation, setSelectedTab, selectedTab}) => {
   );
 };
 
-const CustomDrawer = ({selectedTab, setSelectedTab}) => {
+const CustomDrawer = ({ selectedTab, setSelectedTab }) => {
   const [progress, setProgress] = React.useState(new Animated.Value(0));
 
   const scale = Animated.interpolateNode(progress, {
@@ -155,26 +167,28 @@ const CustomDrawer = ({selectedTab, setSelectedTab}) => {
     outputRange: [0, 26],
   });
 
-  const animatedStyle = {borderRadius, transform: [{scale}]};
+  const animatedStyle = { borderRadius, transform: [{ scale }] };
 
   return (
-    <View style={{flex: 1, backgroundColor: COLORS.primary}}>
+    <View style={{ flex: 1, backgroundColor: COLORS.primary }}>
       <Drawer.Navigator
         screenOptions={{
-          drawerType: 'slide',
-          overlayColor: 'transparent',
+          drawerType: "slide",
+          overlayColor: "transparent",
           sceneContainerStyle: {
-            backgroundColor: 'transparent',
+            backgroundColor: "transparent",
           },
           drawerStyle: {
             flex: 1,
-            width: '65%',
+            width: "65%",
             paddingRight: 20,
-            backgroundColor: 'transparent',
+            backgroundColor: "transparent",
           },
+          // Whether to show the header. Setting this to false hides the header. Defaults to
+          headerShown: false,
         }}
         initialRouteName="MainLayout"
-        drawerContent={props => {
+        drawerContent={(props) => {
           setTimeout(() => {
             setProgress(props.progress);
           }, 0);
@@ -185,9 +199,10 @@ const CustomDrawer = ({selectedTab, setSelectedTab}) => {
               setSelectedTab={setSelectedTab}
             />
           );
-        }}>
+        }}
+      >
         <Drawer.Screen name="MainLayout">
-          {props => (
+          {(props) => (
             <MainLayout {...props} drawerAnimationStyle={animatedStyle} />
           )}
         </Drawer.Screen>
@@ -204,7 +219,7 @@ function mapStateToProps(state) {
 
 function mapDispatchToProps(dispatch) {
   return {
-    setSelectedTab: selectedTab => {
+    setSelectedTab: (selectedTab) => {
       return dispatch(setSelectedTab(selectedTab));
     },
   };

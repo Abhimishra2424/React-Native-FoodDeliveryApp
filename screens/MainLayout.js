@@ -31,6 +31,47 @@ const MainLayout = ({
   selectedTab,
   setSelectedTab,
 }) => {
+  const LeftComponent = () => {
+    return (
+      <TouchableOpacity
+        style={{
+          width: 40,
+          height: 40,
+          alignItems: "center",
+          justifyContent: "center",
+          borderWidth: 1,
+          borderColor: COLORS.gray2,
+          borderRadius: SIZES.radius,
+        }}
+        // add for open Drawer
+        onPress={() => navigation.openDrawer()}
+      >
+        <Image source={icons.menu} />
+      </TouchableOpacity>
+    );
+  };
+
+  const RightComponent = () => {
+    return (
+      <TouchableOpacity
+        style={{
+          alignItems: "center",
+          justifyContent: "center",
+          borderRadius: SIZES.radius,
+        }}
+      >
+        <Image
+          source={dummyData?.myProfile?.profile_image}
+          style={{
+            width: 40,
+            height: 40,
+            borderRadius: SIZES.radius,
+          }}
+        />
+      </TouchableOpacity>
+    );
+  };
+
   useEffect(() => {
     setSelectedTab(constants.screens.home);
   }, []);
@@ -54,6 +95,8 @@ const MainLayout = ({
           alignItems: "center",
         }}
         title={selectedTab.toUpperCase()}
+        LeftComponent={LeftComponent}
+        RightComponent={RightComponent}
       />
       {/* Content */}
       <View
