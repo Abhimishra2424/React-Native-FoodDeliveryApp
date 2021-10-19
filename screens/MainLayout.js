@@ -61,14 +61,18 @@ const TabButton = ({
         >
           <Image
             source={icon}
-            style={{ width: 20, height: 20, tintColor: COLORS.gray }}
+            style={{
+              width: 20,
+              height: 20,
+              tintColor: isFocused ? COLORS.white : COLORS.gray,
+            }}
           />
           {isFocused && (
             <Text
               numberOfLines={1}
               style={{
                 marginLeft: SIZES.base,
-                color: COLORS.gray,
+                color: COLORS.white,
                 ...FONTS.h3,
               }}
             >
