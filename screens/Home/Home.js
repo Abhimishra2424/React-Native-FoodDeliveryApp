@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import {
   View,
   Text,
@@ -10,6 +10,27 @@ import {
 import { FONTS, SIZES, COLORS, icons, dummyData } from "../../constants";
 
 const Home = () => {
+  const [selectedCategoryId, setSelectedCategoryId] = useState(1);
+  const [selectedMenuType, setSelectedMenuType] = useState(1);
+  const [menuList, setMenuList] = useState([]);
+
+  useEffect(() => {
+    handleChangeCategory(selectedCategoryId, selectedMenuType);
+  }, []);
+
+  //   handler
+  function handleChangeCategory(categoryId, menuTypeId) {
+    // find the menu based on the menuTypeId
+    let selectedMenu = dummyData.menu.find((a) => a.id == menuTypeId);
+
+    // set the  menu based on the categoryId
+    setMenuList(
+      selectedMenu?.list.filter((a) => a.categories.includes(categoryId))
+    );
+  }
+
+  //  render
+
   function renderSearch() {
     return (
       <View
@@ -63,6 +84,14 @@ const Home = () => {
       {/* search */}
       {renderSearch()}
       {/* list */}
+      <FlatList
+        data={menuList}
+        keyExtractor={(item) => `${item.id}`}
+        showsHorizontalScrollIndicator={false}
+        renderItem={({ index, item }) => {
+          return <Text>{item.name}</Text>;
+        }}
+      />
     </View>
   );
 };
