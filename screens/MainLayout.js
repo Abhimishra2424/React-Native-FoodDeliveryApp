@@ -131,6 +131,8 @@ const MainLayout = ({
       </TouchableOpacity>
     );
   };
+  // seleted screen view showing with ref
+  const flatListref = React.useRef();
 
   // Reanimated shared value
   const homeTabFlex = useSharedValue(1);
@@ -211,6 +213,10 @@ const MainLayout = ({
 
   useEffect(() => {
     if (selectedTab == constants.screens.home) {
+      flatListref?.current?.scrollToIndex({
+        index: 0,
+        animated: false,
+      });
       homeTabFlex.value = withTiming(4, { duration: 500 });
       homeTabColor.value = withTiming(COLORS.primary, {
         duration: 500,
@@ -223,6 +229,11 @@ const MainLayout = ({
     }
 
     if (selectedTab == constants.screens.search) {
+      flatListref?.current?.scrollToIndex({
+        index: 1,
+        animated: false,
+      });
+
       searchTabFlex.value = withTiming(4, { duration: 500 });
       searchTabColor.value = withTiming(COLORS.primary, {
         duration: 500,
@@ -235,6 +246,11 @@ const MainLayout = ({
     }
 
     if (selectedTab == constants.screens.cart) {
+      flatListref?.current?.scrollToIndex({
+        index: 2,
+        animated: false,
+      });
+
       cartTabFlex.value = withTiming(4, { duration: 500 });
       cartTabColor.value = withTiming(COLORS.primary, {
         duration: 500,
@@ -247,6 +263,11 @@ const MainLayout = ({
     }
 
     if (selectedTab == constants.screens.favourite) {
+      flatListref?.current?.scrollToIndex({
+        index: 3,
+        animated: false,
+      });
+
       favouriteTabFlex.value = withTiming(4, { duration: 500 });
       favouriteTabColor.value = withTiming(COLORS.primary, {
         duration: 500,
@@ -258,6 +279,11 @@ const MainLayout = ({
       });
     }
     if (selectedTab == constants.screens.notification) {
+      flatListref?.current?.scrollToIndex({
+        index: 4,
+        animated: false,
+      });
+
       notificationTabFlex.value = withTiming(4, { duration: 500 });
       notificationTabColor.value = withTiming(COLORS.primary, {
         duration: 500,
@@ -296,7 +322,35 @@ const MainLayout = ({
           flex: 1,
         }}
       >
-        <Text>MainLayout</Text>
+        <FlatList
+          ref={flatListref}
+          horizontal
+          scrollEnabled={false}
+          pagingEnabled
+          snapToAlignment="center"
+          snapToInterval={SIZES.width}
+          showsHorizontalScrollIndicator={false}
+          data={constants.bottom_tabs}
+          keyExtractor={(item) => `${item.id}`}
+          renderItem={({ item, index }) => {
+            return (
+              <View
+                style={{
+                  height: SIZES.height,
+                  width: SIZES.width,
+                }}
+              >
+                {item.label == constants.screens.home && <Home />}
+                {item.label == constants.screens.search && <Search />}
+                {item.label == constants.screens.cart && <CartTab />}
+                {item.label == constants.screens.favourite && <Favourite />}
+                {item.label == constants.screens.notification && (
+                  <Notification />
+                )}
+              </View>
+            );
+          }}
+        />
       </View>
 
       {/* Footer */}
