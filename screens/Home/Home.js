@@ -280,8 +280,41 @@ const Home = () => {
     );
   }
 
-  function renderDeliveryTo(){
-    
+  function renderDeliveryTo() {
+    return (
+      <View
+        style={{
+          marginTop: SIZES.padding,
+          marginHorizontal: SIZES.padding,
+        }}
+      >
+        <Text
+          style={{
+            color: COLORS.primary,
+            ...FONTS.body3,
+          }}
+        >
+          DELIVERY TO
+        </Text>
+
+        <TouchableOpacity
+          style={{
+            flexDirection: "row",
+            marginTop: SIZES.base,
+            alignItems: "center",
+          }}
+        >
+          <Text style={{ ...FONTS.h3 }}>{dummyData?.myProfile?.address}</Text>
+          <Image
+            source={icons.down_arrow}
+            style={{
+              width: 20,
+              height: 20,
+            }}
+          />
+        </TouchableOpacity>
+      </View>
+    );
   }
 
   return (
@@ -298,7 +331,6 @@ const Home = () => {
         keyExtractor={(item) => `${item.id}`}
         ListHeaderComponent={
           <View>
-
             {/* Delivery to */}
             {renderDeliveryTo()}
             {/* FOOD Categories */}
@@ -331,6 +363,7 @@ const Home = () => {
             />
           );
         }}
+        ListFooterComponent={<View style={{ height: 200 }} />}
       />
     </View>
   );
