@@ -7,7 +7,7 @@ import {
   TextInput,
   FlatList,
 } from "react-native";
-import { HorizontalFoodCard } from "../../components";
+import { HorizontalFoodCard, VerticalFoodCard } from "../../components";
 import { FONTS, SIZES, COLORS, icons, dummyData } from "../../constants";
 
 const Section = ({ title, onPress, children }) => {
@@ -42,6 +42,7 @@ const Home = () => {
   const [selectedMenuType, setSelectedMenuType] = useState(1);
   const [menuList, setMenuList] = useState([]);
   const [recommends, setRecommends] = useState([]);
+  const [popular, setPopular] = useState([]);
 
   useEffect(() => {
     handleChangeCategory(selectedCategoryId, selectedMenuType);
@@ -49,11 +50,19 @@ const Home = () => {
 
   //   handler
   function handleChangeCategory(categoryId, menuTypeId) {
+    //  Retrieve the popular menu
+    let selectedPopular = dummyData.menu.find((a) => a.name == "Popular");
+
     // Retrieve the Recommended menu
     let selectedRecommend = dummyData.menu.find((a) => a.name == "Recommended");
 
     // find the menu based on the menuTypeId
     let selectedMenu = dummyData.menu.find((a) => a.id == menuTypeId);
+
+    //  set the Popular  menu based on the categoryId
+    setPopular(
+      selectedPopular?.list.filter((a) => a.categories.includes(categoryId))
+    );
 
     //  set the Recommended  menu based on the categoryId
     setRecommends(
@@ -188,6 +197,32 @@ const Home = () => {
     );
   }
 
+  function renderPopularSection() {
+    return (
+      <Section
+        title="Popular Near You"
+        opPress={() => console.log("Show all Popular")}
+      >
+        <FlatList
+          data={popular}
+          keyExtractor={(item) => `${item.id}`}
+          horizontal
+          showsHorizontalScrollIndicator={false}
+          renderItem={({ item, index }) => (
+            <VerticalFoodCard
+              conatinerStyle={{
+                marginLeft: index == 0 ? SIZES.padding : 18,
+                marginRight: index == popular.length - 1 ? SIZES.padding : 0,
+              }}
+              item={item}
+              opPress={() => console.log("VerticalFoodCard")}
+            />
+          )}
+        />
+      </Section>
+    );
+  }
+
   return (
     <View
       style={{
@@ -202,6 +237,8 @@ const Home = () => {
         keyExtractor={(item) => `${item.id}`}
         ListHeaderComponent={
           <View>
+            {/* Popular section */}
+            {renderPopularSection()}
             {/* Recommended */}
             {renderRecommendedSection()}
             {/* Menu Type */}
